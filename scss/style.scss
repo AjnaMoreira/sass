@@ -1,0 +1,269 @@
+///VARIÁVEIS
+//NÃO APARECEM NO CSS
+$purple: #a050be;
+$light-grey: #eaeaea;
+$dark-grey: #464646;
+$yellow: #fabe50;
+$img-width: 45%;
+
+///PLACEHOLDER SELECTOR
+%no-decoration {
+    text-decoration: none;
+}
+
+%u-decoration {
+    text-decoration: underline;
+}
+
+@mixin h1 {
+    @include fontSize(22px);
+    color: $dark-grey;
+    letter-spacing: 1px;
+    margin: 5px 0 10px;
+}
+
+@mixin reset-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+@mixin flx($property, $jty-cnt) {
+    display: flex;
+    #{$property}: $jty-cnt;
+}
+
+//MEDIA QUERY
+@mixin for-phone-only {
+    @media (max-width: 767.98px) {
+        @content;
+    }
+}
+
+@mixin for-tablet-only {
+    @media (min-width: 768px) and (max-width: 1199.98px) {
+        @content;
+    }
+}
+
+@mixin for-desktop-only {
+    @media (min-width: 1200px) {
+        @content;
+    }
+}
+
+//FUNCTION
+@function calculateRem($size) {
+    @return calc($size / 16px) * 1rem;
+}
+
+@mixin fontSize($size) {
+    font-size: calculateRem($size);
+}
+
+@import 'header', 'footer', 'about', 'article', 'collection', 'contact';
+
+//MARGINS
+$directions: top, bottom, left, right;
+
+$layout-margin-size: 10px;
+
+@each $direction in $directions {
+    %no-margin-#{$direction} {
+        margin-#{$direction}: 0;
+    }
+    %default-margin-#{$direction} {
+        margin-#{$direction}: $layout-margin-size;
+    }
+    %double-margin-#{$direction} {
+        margin-#{$direction}: calc($layout-margin-size * 2);
+    }
+    %half-margin-#{$direction} {
+        margin-#{$direction}: calc($layout-margin-size / 2);
+    }
+}
+
+/*MAIN*/
+.main {
+    @include flx(justify-content, center);
+    flex-wrap: wrap;
+    font-family: Arial, Helvetica, sans-serif;
+
+    &-content {
+        width: 70%;
+        padding: 40px 8px;
+        @include for-phone-only {
+            width: 100%;
+        }
+    }
+
+    &-post {
+        text-align: center;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    &-title {
+        @extend %no-decoration;
+        @include fontSize(22px);
+        color: $dark-grey;
+        letter-spacing: 1.5px;
+        &:hover {
+            color: $purple;
+        }
+    }
+
+    &-subtitle {
+        @include flx(justify-content, center);
+        align-items: center;
+        @extend %default-margin-top, %double-margin-bottom;
+    }
+
+    &-date {
+        @extend %no-margin-top,
+            %no-margin-bottom,
+            %default-margin-left,
+            %default-margin-right;
+        @include fontSize(12px);
+        font-style: italic;
+    }
+
+    &-tag {
+        @include fontSize(14px);
+        padding: 5px 7px;
+        color: $purple;
+        border: 1px solid $purple;
+        @extend %no-margin-top,
+            %no-margin-bottom,
+            %default-margin-left,
+            %default-margin-right;
+    }
+
+    &-details {
+        border: 1px solid $light-grey;
+    }
+
+    &-img {
+        width: 100%;
+    }
+
+    &-description {
+        padding: 40px 0 25px;
+        max-width: 650px;
+        margin-left: auto;
+        margin-right: auto;
+        @include fontSize(14px);
+    }
+
+    &-btn {
+        @extend %no-decoration;
+        @include fontSize(16px);
+        letter-spacing: 1.5;
+        color: $purple;
+        background: $yellow;
+        padding: 10px 20px;
+        transition: 0.3s;
+
+        &:hover {
+            color: $yellow;
+            background: $purple;
+        }
+    }
+
+    &-info {
+        @include flx(justify-content, space-between);
+        align-items: center;
+        border-top: 1px solid $light-grey;
+        margin-top: 30px;
+    }
+
+    &-author {
+        width: 50%;
+        border-right: 1px solid $light-grey;
+    }
+
+    &-p {
+        @include fontSize(14px);
+        color: $dark-grey;
+        @extend %default-margin-top, %default-margin-bottom;
+    }
+
+    &-comments {
+        width: 50%;
+    }
+
+    &-a {
+        @extend %no-decoration;
+        @include fontSize(14px);
+        color: $dark-grey;
+        @extend %default-margin-top, %default-margin-bottom;
+
+        &:hover {
+            color: $purple;
+        }
+    }
+
+    /*SIDEBAR*/
+    &-sidebar {
+        width: 25%;
+        padding: 40px 10px;
+    }
+
+    .sidebar {
+        &-top {
+            border: 1px solid $light-grey;
+            padding: 15px 20px;
+        }
+
+        &-title {
+            background: $yellow;
+            text-align: center;
+            padding: 10px 20px;
+            @extend %no-margin-top,
+                %no-margin-bottom,
+                %no-margin-left,
+                %no-margin-right;
+            letter-spacing: 1.5px;
+        }
+
+        &-posts {
+            @include reset-list;
+        }
+
+        &-list {
+            @include flx(justify-content, center);
+            flex-wrap: wrap;
+            align-items: center;
+            padding: 15px 0;
+
+            &:not(:last-child) {
+                border-bottom: 1px dashed $light-grey;
+            }
+        }
+
+        &-img {
+            width: 40%;
+        }
+
+        &-details {
+            width: 50%;
+            padding-left: 10px;
+        }
+
+        &-post-title {
+            @include fontSize(14px);
+            color: $purple;
+            @extend %no-decoration;
+
+            &:hover {
+                @extend %u-decoration;
+            }
+        }
+
+        &-post-date {
+            @include fontSize(12px);
+            margin: 5px 0 0 0;
+        }
+    }
+}
